@@ -36,8 +36,8 @@ def get_help_buttons(theme="dark"):
         [Button.inline("🕶 SPAM", data="spam"), Button.inline("🔒 RAID", data="raid")],
         [Button.inline("👥 ADMIN", data="group"), Button.inline("📡 TOOLS", data="extra")],
         [Button.inline("🌗 Toggle Theme", data="toggle_theme")],
-        [Button.url("📢 Updates", "https://t.me/KomalMusicRobotSupport"),
-         Button.url("💬 Support", "https://t.me/KomalNetwork")]
+        [Button.url("📢 Updates", "https://t.me/+ub0nytC5h-FhMzc9"),
+         Button.url("💬 Support", "https://t.me/+ub0nytC5h-FhMzc9")]
     ]
 
 # === Modules ===
