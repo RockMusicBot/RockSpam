@@ -6,8 +6,8 @@ START_BUTTON = [
         Button.inline("• ᴄᴏᴍᴍᴀɴᴅs •", data="help_back")
     ],
     [
-        Button.url("• ᴄʜᴀɴɴᴇʟ •", "https://t.me/KomalBotsNetwork"),
-        Button.url("• sᴜᴘᴘᴏʀᴛ •", "https://t.me/KomalMusicRobotSupport")
+        Button.url("• ᴄʜᴀɴɴᴇʟ •", "https://t.me/+ub0nytC5h-FhMzc9"),
+        Button.url("• sᴜᴘᴘᴏʀᴛ •", "https://t.me/+ub0nytC5h-FhMzc9")
     ],
     [
         Button.url("• ʀᴇᴘᴏ •", "https://files.catbox.moe/2d32oj.mp4")
@@ -30,7 +30,7 @@ async def start(event):
         bot_name = AltBot.first_name
         bot_id = AltBot.id
         TEXT = f"ʜᴇʏ [{event.sender.first_name}](tg://user?id={event.sender.id}),\n\nɪ ᴀᴍ [{bot_name}](tg://user?id={bot_id})\n━━━━━━━━━━━━━━━━━━━\n\n"
-        TEXT += f"» ᴍʏ ᴅᴇᴠᴇʟᴏᴘᴇʀ : [𝗞𝗮𝗽𝗶𝗹 𝗬𝗮𝗱𝗮𝘃](https://t.me/Itskapilyadav)\n\n"
+        TEXT += f"» ᴍʏ ᴅᴇᴠᴇʟᴏᴘᴇʀ : [𝗥𝗘𝗩𝗘𝗡𝗚𝗘 𝗞𝗜𝗡𝗚](https://t.me/REVENGEKING199)\n\n"
         TEXT += f"» xʙᴏᴛꜱ ᴠᴇʀsɪᴏɴ : M3.3\n"
         TEXT += f"» �ᴘʏᴛʜᴏɴ ᴠᴇʀsɪᴏɴ : 3.11.3\n"
         TEXT += f"» ᴛᴇʟᴇᴛʜᴏɴ ᴠᴇʀsɪᴏɴ : {__version__}\n━━━━━━━━━━━━━━━━━"
