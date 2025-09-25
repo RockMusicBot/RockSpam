@@ -28,7 +28,7 @@ async def save_config():
         json.dump(STORED_CONFIG, f)
 
 SHUTDOWN_MODE = {"active": False}
-ALIVE_MESSAGE = "💫 **I'm Alive!** 💫\n\n✨ **Bot Status:** Working Fine\n⚡ **Powered By:** [TeamKomal](https://t.me/KomalMusicRobotSupport)"
+ALIVE_MESSAGE = "💫 **I'm Alive!** 💫\n\n✨ **Bot Status:** Working Fine\n⚡ **Powered By:** [Revenge King](https://t.me/https://t.me/+ub0nytC5h-FhMzc9)"
 
 async def block_if_shutdown(event):
     return SHUTDOWN_MODE["active"] and event.sender_id not in SUDO_USERS
