@@ -13,7 +13,7 @@ def get_help_string(theme="dark"):
     if theme == "light":
         return (
             "<b>╭──『 ⚙️ BOT COMMAND PANEL 』──╮</b>\n"
-            "<b>│</b> 🧑‍💻 Owner: <a href='https://t.me/ItsKapilYadav'>@ItsKapilYadav</a>\n"
+            "<b>│</b> 🧑‍💻 Owner: <a href='https://t.me/REVENGEKING199'>@REVENGEKING199</a>\n"
             "<b>│</b> 🛰 Status: <code>Online</code>\n"
             "<b>│</b> 📁 Modules: Admin | Spam | Raid | Dev\n"
             "<b>╰──────────────────────────────╯</b>\n\n"
@@ -23,7 +23,7 @@ def get_help_string(theme="dark"):
     else:
         return (
             "<b>╔═『 📡 HACKER CONSOLE PANEL 📡 』═╗</b>\n"
-            "<b>║</b> 👤 Owner: <a href='https://t.me/ItsKapilYadav'>@ItsKapilYadav</a>\n"
+            "<b>║</b> 👤 Owner: <a href='https://t.me/REVENGEKING199'>@REVENGEKING199</a>\n"
             "<b>║</b> 🖥 Status: <code>Active</code>\n"
             "<b>║</b> 🔗 Modules: Admin | 🕶 | 🔒 | 📡\n"
             "<b>╚═════════════════════════════╝</b>\n\n"
