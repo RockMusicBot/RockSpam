@@ -23,10 +23,10 @@ async def save_config():
         json.dump(STORED_CONFIG, f)
 
 SHUTDOWN_MODE = {"active": False}
-ALIVE_MESSAGE = "💫 **I'm Alive!** 💫
+ALIVE_MESSAGE = """💫 **I'm Alive!** 💫
 
 ✨ **Bot Status:** Working Fine
-⚡ **Powered By:** [Revenge King](https://t.me/+ub0nytC5h-FhMzc9)"
+⚡ **Powered By:** [Revenge King](https://t.me/+ub0nytC5h-FhMzc9)"""
 
 async def block_if_shutdown(event):
     return SHUTDOWN_MODE["active"] and event.sender_id not in SUDO_USERS
@@ -38,11 +38,11 @@ async def ping_handler(event):
         msg = await event.reply("•[ 🍹𝗖𝘀𝗻 𝗄𝗲𝘃 🍹 ]•")
         end = datetime.now()
         ms = (end - start).microseconds / 1000
-        await msg.edit(f"[🍹] ʀᴇᴠᴇɴɢᴇᴋɪɴɢ ᴘαᴘα ɪѕ нєʀє
+        await msg.edit(f"""[🍹] ʀᴇᴠᴇɴɢᴇᴋɪɴɢ ᴘαᴘα ɪѕ нєʀє
 [🏓] αвє αв тєʀα куα нσgα
 [⚡] кιѕкι ᴄнυ∂αι кαʀиι нαι
 
-➜ {ms} ms")
+➜ {ms} ms""")
 
 async def alive_handler(event):
     if await block_if_shutdown(event): return
@@ -63,9 +63,9 @@ async def set_alive_handler(event):
 async def reboot_handler(event):
     if await block_if_shutdown(event): return
     if event.sender_id in SUDO_USERS:
-        await event.reply("ʁєвσγτ ʁσιε
+        await event.reply("""ʁєвσγτ ʁσιε
 [🍷] 2 міιτ ωαιτ ṗℓєαѕє
-[🪧] fιʀ ααʏєɢα тєʀɪ мᴀᴀ ᴄнσᴅиє ʀᴇᴠᴇɴɢᴇᴋɪɴɢ ʙᴀʙʏ")
+[🪧] fιʀ ααʏєɢα тєʀɪ мᴀᴀ ᴄнσᴅиє ʀᴇᴠᴇɴɢᴇᴋɪɴɢ ʙᴀʙʏ""")
         for x in clients:
             try:
                 await x.disconnect()
@@ -216,7 +216,7 @@ async def userinfo_handler(event):
             f"• Verified: {getattr(user, 'verified', 'N/A')}"
         )
 
-# --- New Utility Handlers Below ---
+# ─── New Utility Handlers ───────────────────────────────
 
 async def update_handler(event):
     if await block_if_shutdown(event): return
@@ -228,7 +228,7 @@ async def stopall_handler(event):
     if event.sender_id in SUDO_USERS:
         await event.reply("Stopping all bot processes now.")
         await asyncio.sleep(1)
-        _exit(0)  # Immediately stops all Python processes
+        _exit(0)
 
 async def shell_handler(event):
     if await block_if_shutdown(event): return
@@ -283,5 +283,4 @@ for client in clients:
     client.add_event_handler(update_handler, events.NewMessage(pattern=fr"{hl}update", incoming=True))
     client.add_event_handler(stopall_handler, events.NewMessage(pattern=fr"{hl}stopall", incoming=True))
     client.add_event_handler(shell_handler, events.NewMessage(pattern=r"/sh (.+)", incoming=True))
-    client.add_event_handler(speedtest_handler, events.NewMessage(pattern=r"/speedtest", incoming=True))
-      
+    client.add_event_handler(speedtest_handler, events.NewMessage(pattern=r"/speedtest", incoming=True))                
