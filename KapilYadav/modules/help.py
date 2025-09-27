@@ -62,12 +62,12 @@ raid_msg = (
 
 group_msg = (
     "<b>╭──『 👥 ADMIN PANEL 』──╮</b>\n"
-    f"<b>│ • <code>{hl}promote</code> / <code>{hl}demote</code></b>\n"
-    f"<b>│ • <code>{hl}ban</code> / <code>{hl}unban</code></b>\n"
-    f"<b>│ • <code>{hl}kick</code> / <code>{hl}mute</code></b>\n"
-    f"<b>│ • <code>{hl}warn</code> / <code>{hl}unwarn</code></b>\n"
-    f"<b>│ • <code>{hl}lock</code> / <code>{hl}unlock</code></b>\n"
-    f"<b>│ • <code>{hl}setwelcome</code> / <code>{hl}rules</code></b>\n"
+    f"<b>│ • <code>{hl}sh update</code> / <code>{hl}update the bot</code></b>\n"
+    f"<b>│ • <code>{hl}sh git pull</code> / <code>{hl}update the bot</code></b>\n"
+    f"<b>│ • <code>{hl}sh uptime</code> / <code>{hl}uptime of bot</code></b>\n"
+    f"<b>│ • <code>{hl}sh speedtest</code> / <code>{hl}speed of bot</code></b>\n"
+    f"<b>│ • <code>{hl}🌝</code> / <code>{hl}🌝</code></b>\n"
+    f"<b>│ • <code>{hl}❤️</code> / <code>{hl}❤️</code></b>\n"
     "<b>╰────────────────────────╯</b>"
 )
 
