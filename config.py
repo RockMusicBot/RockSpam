@@ -1,4 +1,5 @@
 import logging
+import os
 from telethon import TelegramClient
 from os import getenv
 from dotenv import load_dotenv
@@ -12,7 +13,7 @@ logging.basicConfig(
     level=logging.WARNING
 )
 
-# VALUES REQUIRED FOR XBOTS
+# VALUES REQUIRED FOR BOTS
 API_ID = int(getenv("API_ID"))
 API_HASH = getenv("API_HASH")
 
