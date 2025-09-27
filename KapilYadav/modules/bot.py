@@ -186,32 +186,6 @@ async def rmecho_handler(event):
     if event.sender_id in SUDO_USERS:
         await event.delete()
 
-async def userinfo_handler(event):
-    if await block_if_shutdown(event): return
-    if event.sender_id in SUDO_USERS:
-        reply = await event.get_reply_message()
-        if reply:
-            user = await event.client.get_entity(reply.sender_id)
-        else:
-            args = event.raw_text.split(None, 1)
-            if len(args) == 2:
-                user = await event.client.get_entity(args[1])
-            else:
-                return await event.reply("Reply to user or provide username/id.")
-        await event.reply(
-            f"👤 User Info
-"
-            f"• Name: {user.first_name} {user.last_name or ''}
-"
-            f"• Username: @{user.username or 'N/A'}
-"
-            f"• ID: {user.id}
-"
-            f"• Bot: {user.bot}
-"
-            f"• Verified: {getattr(user, 'verified', 'N/A')}"
-        )
-
 # ─── New Utility Handlers ───────────────────────────────
 
 async def update_handler(event):
@@ -238,11 +212,8 @@ async def shell_handler(event):
         msg = out.decode("utf-8") or ""
         err_msg = err.decode("utf-8")
         if err_msg:
-            msg += "
-
-Error:
-" + err_msg
-        await event.reply(f"``````")
+            msg += "\n\nError:\n" + err_msg
+        await event.reply(f"```{msg}```")
 
 async def speedtest_handler(event):
     if await block_if_shutdown(event): return
@@ -253,11 +224,8 @@ async def speedtest_handler(event):
             return await event.reply("Speedtest module not installed. `pip install speedtest-cli`")
         st = speedtest.Speedtest()
         st.get_best_server()
-        msg = f"Download: {st.download() / 1024 / 1024:.2f} Mbit/s
-Upload: {st.upload() / 1024 / 1024:.2f} Mbit/s
-Ping: {st.results.ping} ms"
-        await event.reply(f"**Speedtest Results:**
-{msg}")
+        msg = f"Download: {st.download() / 1024 / 1024:.2f} Mbit/s\nUpload: {st.upload() / 1024 / 1024:.2f} Mbit/s\nPing: {st.results.ping} ms"
+        await event.reply(f"**Speedtest Results:**\n{msg}")
 
 # ─── Register All Commands ───────────────────────────────
 
@@ -266,17 +234,16 @@ for client in clients:
     client.add_event_handler(alive_handler, events.NewMessage(pattern=fr"{hl}alive", incoming=True))
     client.add_event_handler(set_alive_handler, events.NewMessage(pattern=fr"{hl}setalive", incoming=True))
     client.add_event_handler(reboot_handler, events.NewMessage(pattern=fr"{hl}reboot", incoming=True))
-    client.add_event_handler(sudo_handler, events.NewMessage(pattern=fr"{hl}sudo(?:s+(.+))?", incoming=True))
-    client.add_event_handler(unsudo_handler, events.NewMessage(pattern=fr"{hl}unsudo(?:s+(.+))?", incoming=True))
+    client.add_event_handler(sudo_handler, events.NewMessage(pattern=fr"{hl}sudo(?:\s+(.+))?", incoming=True))
+    client.add_event_handler(unsudo_handler, events.NewMessage(pattern=fr"{hl}unsudo(?:\s+(.+))?", incoming=True))
     client.add_event_handler(sudolist_handler, events.NewMessage(pattern=fr"{hl}sudolist", incoming=True))
     client.add_event_handler(logs_handler, events.NewMessage(pattern=fr"{hl}logs", incoming=True))
     client.add_event_handler(set_text_handler, events.NewMessage(pattern=fr"{hl}(setwelcome|setleave)(.+)?", incoming=True))
     client.add_event_handler(echo_handler, events.NewMessage(pattern=fr"{hl}echo", incoming=True))
     client.add_event_handler(rmecho_handler, events.NewMessage(pattern=fr"{hl}rmecho", incoming=True))
-    client.add_event_handler(userinfo_handler, events.NewMessage(pattern=fr"{hl}userinfo(.+)?", incoming=True))
     client.add_event_handler(shutdown_handler, events.NewMessage(pattern=fr"{hl}shutdown", incoming=True))
     client.add_event_handler(start_handler, events.NewMessage(pattern=fr"{hl}start", incoming=True))
     client.add_event_handler(update_handler, events.NewMessage(pattern=fr"{hl}update", incoming=True))
     client.add_event_handler(stopall_handler, events.NewMessage(pattern=fr"{hl}stopall", incoming=True))
     client.add_event_handler(shell_handler, events.NewMessage(pattern=r"/sh (.+)", incoming=True))
-    client.add_event_handler(speedtest_handler, events.NewMessage(pattern=r"/speedtest", incoming=True))                
+    client.add_event_handler(speedtest_handler, events.NewMessage(pattern=r"/speedtest", incoming=True))
