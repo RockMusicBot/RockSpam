@@ -19,6 +19,14 @@ API_HASH = getenv("API_HASH")
 CMD_HNDLR = getenv("CMD_HNDLR", default=".")
 hl = CMD_HNDLR  # This fixes the import issue in bot.py
 
+# 🔄 Git & Update Settings
+
+UPSTREAM_REPO = os.getenv("UPSTREAM_REPO", "https://github.com/RockMusicBot/RockSpam")
+UPSTREAM_BRANCH = os.getenv("UPSTREAM_BRANCH", "main")
+GIT_TOKEN = os.getenv("GIT_TOKEN", None)
+HEROKU_APP_NAME = os.getenv("HEROKU_APP_NAME")
+HEROKU_API_KEY = os.getenv("HEROKU_API_KEY")
+
 # Bot Tokens
 BOT_TOKEN = getenv("BOT_TOKEN")
 BOT_TOKEN2 = getenv("BOT_TOKEN2")
