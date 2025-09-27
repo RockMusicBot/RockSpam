@@ -40,7 +40,7 @@ async def ping_handler(event):
         msg = await event.reply("•[ 🍹𝗖𝘀𝗻 𝗄𝗲𝘃 🍹 ]•")
         end = datetime.now()
         ms = (end - start).microseconds / 1000
-        await msg.edit(f"[🍹] ʀᴇᴠᴇɴɢᴇᴋɪɴɢ ᴘαᴘα ɪѕ нєʀє\n[🏓] αвє αв тєʀα куα нσgα\n[⚡] кιѕкι ᴄнυ∂αι кαʀиι нαι\n\n➜ {mp} ms")
+        await msg.edit(f"[🍹] ʀᴇᴠᴇɴɢᴇᴋɪɴɢ ᴘαᴘα ɪѕ нєʀє\n[🏓] αвє αв тєʀα куα нσgα\n[⚡] кιѕкι ᴄнυ∂αι кαʀиι нαι\n\n➜ {ms} ms")
 
 async def alive_handler(event):
     if await block_if_shutdown(event): return
