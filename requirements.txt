@@ -5,6 +5,7 @@ python-dotenv
 speedtest-cli
 requests
 EOF
+gitpython
 
 
 
