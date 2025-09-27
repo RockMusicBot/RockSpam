@@ -61,7 +61,7 @@ raid_msg = (
 )
 
 group_msg = (
-    "<b>╭──『 👥 GROUP CONTROL 』──╮</b>\n"
+    "<b>╭──『 👥 ADMIN PANEL 』──╮</b>\n"
     f"<b>│ • <code>{hl}promote</code> / <code>{hl}demote</code></b>\n"
     f"<b>│ • <code>{hl}ban</code> / <code>{hl}unban</code></b>\n"
     f"<b>│ • <code>{hl}kick</code> / <code>{hl}mute</code></b>\n"
