@@ -146,19 +146,15 @@ async def sudolist_handler(event):
     if event.sender_id in SUDO_USERS:
         if not SUDO_USERS:
             return await event.reply("No sudo users configured.")
-        message = "**🍷 Sudo Users List 🍷**
-
-"
+        message = "**🍷 Sudo Users List 🍷**\n\n"
         for user_id in SUDO_USERS:
             try:
                 user = await event.client.get_entity(user_id)
                 name = f"{user.first_name} {user.last_name or ''}".strip()
                 username = f"@{user.username}" if user.username else "No username"
-                message += f"• {name} ({username}) - `{user_id}`
-"
+                message += f"• {name} ({username}) - `{user_id}`\n"
             except:
-                message += f"• Unknown user - `{user_id}`
-"
+                message += f"• Unknown user - `{user_id}`\n"
         await event.reply(message)
 
 async def logs_handler(event):
