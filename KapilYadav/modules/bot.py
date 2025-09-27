@@ -1,21 +1,16 @@
-import asyncio
+  import asyncio
 import logging
 import sys
 import json
+import subprocess
 from datetime import datetime
-from os import execl
+from os import execl, _exit
 
-from telethon import events, Button
-from telethon.events import ChatAction
-from telethon.tl.functions.channels import EditBannedRequest, EditAdminRequest
-from telethon.tl.types import ChatBannedRights, ChatAdminRights
-
+from telethon import events
 from config import X1, X2, X3, X4, X5, X6, X7, X8, X9, X10, SUDO_USERS, CMD_HNDLR as hl
 
 logging.basicConfig(level=logging.INFO)
-
 clients = [X1, X2, X3, X4, X5, X6, X7, X8, X9, X10]
-
 CONFIG_FILE = "config_store.json"
 try:
     with open(CONFIG_FILE) as f:
@@ -28,7 +23,10 @@ async def save_config():
         json.dump(STORED_CONFIG, f)
 
 SHUTDOWN_MODE = {"active": False}
-ALIVE_MESSAGE = "💫 **I'm Alive!** 💫\n\n✨ **Bot Status:** Working Fine\n⚡ **Powered By:** [Revenge King](https://t.me/https://t.me/+ub0nytC5h-FhMzc9)"
+ALIVE_MESSAGE = "💫 **I'm Alive!** 💫
+
+✨ **Bot Status:** Working Fine
+⚡ **Powered By:** [Revenge King](https://t.me/+ub0nytC5h-FhMzc9)"
 
 async def block_if_shutdown(event):
     return SHUTDOWN_MODE["active"] and event.sender_id not in SUDO_USERS
@@ -40,7 +38,11 @@ async def ping_handler(event):
         msg = await event.reply("•[ 🍹𝗖𝘀𝗻 𝗄𝗲𝘃 🍹 ]•")
         end = datetime.now()
         ms = (end - start).microseconds / 1000
-        await msg.edit(f"[🍹] ʀᴇᴠᴇɴɢᴇᴋɪɴɢ ᴘαᴘα ɪѕ нєʀє\n[🏓] αвє αв тєʀα куα нσgα\n[⚡] кιѕкι ᴄнυ∂αι кαʀиι нαι\n\n➜ {ms} ms")
+        await msg.edit(f"[🍹] ʀᴇᴠᴇɴɢᴇᴋɪɴɢ ᴘαᴘα ɪѕ нєʀє
+[🏓] αвє αв тєʀα куα нσgα
+[⚡] кιѕкι ᴄнυ∂αι кαʀиι нαι
+
+➜ {ms} ms")
 
 async def alive_handler(event):
     if await block_if_shutdown(event): return
@@ -61,11 +63,9 @@ async def set_alive_handler(event):
 async def reboot_handler(event):
     if await block_if_shutdown(event): return
     if event.sender_id in SUDO_USERS:
-        await event.reply(
-            "ʁєвσγτ ʁσιε\n"
-            "[🍷] 2 міιτ ωαιτ ṗℓєαѕє\n"
-            "[🪧] fιʀ ααʏєɢα тєʀɪ мᴀᴀ ᴄнσᴅиє ʀᴇᴠᴇɴɢᴇᴋɪɴɢ ʙᴀʙʏ"
-        )
+        await event.reply("ʁєвσγτ ʁσιε
+[🍷] 2 міιτ ωαιτ ṗℓєαѕє
+[🪧] fιʀ ααʏєɢα тєʀɪ мᴀᴀ ᴄнσᴅиє ʀᴇᴠᴇɴɢᴇᴋɪɴɢ ʙᴀʙʏ")
         for x in clients:
             try:
                 await x.disconnect()
@@ -89,7 +89,6 @@ async def sudo_handler(event):
         try:
             reply = await event.get_reply_message()
             args = event.pattern_match.group(1)
-            
             if reply:
                 target = reply.sender_id
             elif args:
@@ -105,7 +104,6 @@ async def sudo_handler(event):
                     return await event.reply(f"Error getting user: {str(e)}")
             else:
                 return await event.reply("Reply to a user or provide username/ID.")
-                
             if target not in SUDO_USERS:
                 SUDO_USERS.append(target)
                 await event.reply(f"User {target} added to sudo list.")
@@ -120,7 +118,6 @@ async def unsudo_handler(event):
         try:
             reply = await event.get_reply_message()
             args = event.pattern_match.group(1)
-            
             if reply:
                 target = reply.sender_id
             elif args:
@@ -136,7 +133,6 @@ async def unsudo_handler(event):
                     return await event.reply(f"Error getting user: {str(e)}")
             else:
                 return await event.reply("Reply to a user or provide username/ID.")
-                
             if target in SUDO_USERS:
                 SUDO_USERS.remove(target)
                 await event.reply(f"User {target} removed from sudo list.")
@@ -150,136 +146,20 @@ async def sudolist_handler(event):
     if event.sender_id in SUDO_USERS:
         if not SUDO_USERS:
             return await event.reply("No sudo users configured.")
-            
-        message = "**🍷 Sudo Users List 🍷**\n\n"
+        message = "**🍷 Sudo Users List 🍷**
+
+"
         for user_id in SUDO_USERS:
             try:
                 user = await event.client.get_entity(user_id)
                 name = f"{user.first_name} {user.last_name or ''}".strip()
                 username = f"@{user.username}" if user.username else "No username"
-                message += f"• {name} ({username}) - `{user_id}`\n"
+                message += f"• {name} ({username}) - `{user_id}`
+"
             except:
-                message += f"• Unknown user - `{user_id}`\n"
-                
+                message += f"• Unknown user - `{user_id}`
+"
         await event.reply(message)
-
-async def group_handler(event):
-    if await block_if_shutdown(event): return
-    if event.sender_id in SUDO_USERS:
-        try:
-            reply = await event.get_reply_message()
-            if not reply: return await event.reply("Reply to a user.")
-            user = await event.client.get_entity(reply.sender_id)
-            cmd = event.pattern_match.group(1).lower()
-
-            if cmd == "promote":
-                rights = ChatAdminRights(
-                    post_messages=True,
-                    add_admins=False,
-                    invite_users=True,
-                    change_info=False,
-                    ban_users=True,
-                    delete_messages=True,
-                    pin_messages=True
-                )
-                await event.client(EditAdminRequest(event.chat_id, user.id, rights, "Admin"))
-            elif cmd == "fullpromote":
-                rights = ChatAdminRights(
-                    post_messages=True,
-                    add_admins=True,
-                    invite_users=True,
-                    change_info=True,
-                    ban_users=True,
-                    delete_messages=True,
-                    pin_messages=True,
-                    edit_messages=True
-                )
-                await event.client(EditAdminRequest(event.chat_id, user.id, rights, "Full Admin"))
-            elif cmd == "demote":
-                await event.client(EditAdminRequest(event.chat_id, user.id, ChatAdminRights(), ""))
-            elif cmd == "ban":
-                await event.client(EditBannedRequest(event.chat_id, user.id, ChatBannedRights(until_date=None, view_messages=True)))
-            elif cmd == "unban":
-                await event.client(EditBannedRequest(event.chat_id, user.id, ChatBannedRights(until_date=None, view_messages=False)))
-            elif cmd == "kick":
-                await event.client.kick_participant(event.chat_id, user.id)
-            elif cmd == "mute":
-                await event.client.edit_permissions(event.chat_id, user.id, send_messages=False)
-            elif cmd == "unmute":
-                await event.client.edit_permissions(event.chat_id, user.id, send_messages=True)
-
-            await event.reply(f"{cmd.capitalize()} executed.")
-        except Exception as e:
-            await event.reply(f"Error in {cmd}: {str(e)}")
-
-async def lock_unlock_handler(event):
-    if await block_if_shutdown(event): return
-    if event.sender_id not in SUDO_USERS: return
-    try:
-        cmd = event.pattern_match.group(1).lower()
-        target = event.pattern_match.group(2).lower() if len(event.pattern_match.groups()) > 1 else "all"
-        
-        permissions = {
-            "msg": "send_messages",
-            "media": "send_media",
-            "stickers": "send_stickers",
-            "gifs": "send_gifs",
-            "games": "send_games",
-            "inline": "send_inline",
-            "polls": "send_polls",
-            "invite": "invite_users",
-            "pin": "pin_messages",
-            "changeinfo": "change_info"
-        }
-        
-        if target == "all":
-            # Special handling for all permissions
-            if cmd == "lock":
-                await event.client.edit_permissions(
-                    event.chat_id,
-                    send_messages=False,
-                    send_media=False,
-                    send_stickers=False,
-                    send_gifs=False,
-                    send_games=False,
-                    send_inline=False,
-                    send_polls=False,
-                    invite_users=False,
-                    pin_messages=False,
-                    change_info=False
-                )
-            else:  # unlock
-                await event.client.edit_permissions(
-                    event.chat_id,
-                    send_messages=True,
-                    send_media=True,
-                    send_stickers=True,
-                    send_gifs=True,
-                    send_games=True,
-                    send_inline=True,
-                    send_polls=True,
-                    invite_users=True,
-                    pin_messages=True,
-                    change_info=True
-                )
-        else:
-            if target not in permissions:
-                return await event.reply("Invalid type. Use: " + ", ".join(permissions.keys()))
-            
-            if target == "msg":
-                await event.client.edit_permissions(
-                    event.chat_id,
-                    send_messages=(cmd == "unlock")
-                )
-            else:
-                await event.client.edit_permissions(
-                    event.chat_id,
-                    **{permissions[target]: (cmd == "unlock")}
-                )
-        
-        await event.reply(f"{cmd.capitalize()}ed `{target}`.")
-    except Exception as e:
-        await event.reply(f"Error in lock/unlock: {str(e)}")
 
 async def logs_handler(event):
     if await block_if_shutdown(event): return
@@ -297,21 +177,6 @@ async def set_text_handler(event):
         STORED_CONFIG[f"{cmd}_{event.chat_id}"] = text
         await save_config()
         await event.reply(f"{cmd} message saved!")
-
-async def rules_handler(event):
-    if await block_if_shutdown(event): return
-    text = STORED_CONFIG.get(f"setrules_{event.chat_id}", "No rules set.")
-    await event.reply(text)
-
-async def welcome_leave_handler(event):
-    if SHUTDOWN_MODE["active"]: return
-    chat_id = event.chat_id
-    if event.user_joined or event.user_added:
-        text = STORED_CONFIG.get(f"setwelcome_{chat_id}", None)
-        if text: await event.reply(text)
-    elif event.user_left or event.user_kicked:
-        text = STORED_CONFIG.get(f"setleave_{chat_id}", None)
-        if text: await event.reply(text)
 
 async def echo_handler(event):
     if await block_if_shutdown(event): return
@@ -338,13 +203,65 @@ async def userinfo_handler(event):
             else:
                 return await event.reply("Reply to user or provide username/id.")
         await event.reply(
-            f"👤 User Info\n"
-            f"• Name: {user.first_name} {user.last_name or ''}\n"
-            f"• Username: @{user.username or 'N/A'}\n"
-            f"• ID: {user.id}\n"
-            f"• Bot: {user.bot}\n"
+            f"👤 User Info
+"
+            f"• Name: {user.first_name} {user.last_name or ''}
+"
+            f"• Username: @{user.username or 'N/A'}
+"
+            f"• ID: {user.id}
+"
+            f"• Bot: {user.bot}
+"
             f"• Verified: {getattr(user, 'verified', 'N/A')}"
         )
+
+# --- New Utility Handlers Below ---
+
+async def update_handler(event):
+    if await block_if_shutdown(event): return
+    if event.sender_id in SUDO_USERS:
+        await event.reply("Already up to date.")
+
+async def stopall_handler(event):
+    if await block_if_shutdown(event): return
+    if event.sender_id in SUDO_USERS:
+        await event.reply("Stopping all bot processes now.")
+        await asyncio.sleep(1)
+        _exit(0)  # Immediately stops all Python processes
+
+async def shell_handler(event):
+    if await block_if_shutdown(event): return
+    if event.sender_id in SUDO_USERS:
+        try:
+            cmd = event.raw_text.split(None, 1)[1]
+        except IndexError:
+            return await event.reply("Please provide a shell command. Example: `/sh uptime`", parse_mode="md")
+        p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        out, err = p.communicate()
+        msg = out.decode("utf-8") or ""
+        err_msg = err.decode("utf-8")
+        if err_msg:
+            msg += "
+
+Error:
+" + err_msg
+        await event.reply(f"``````")
+
+async def speedtest_handler(event):
+    if await block_if_shutdown(event): return
+    if event.sender_id in SUDO_USERS:
+        try:
+            import speedtest
+        except ImportError:
+            return await event.reply("Speedtest module not installed. `pip install speedtest-cli`")
+        st = speedtest.Speedtest()
+        st.get_best_server()
+        msg = f"Download: {st.download() / 1024 / 1024:.2f} Mbit/s
+Upload: {st.upload() / 1024 / 1024:.2f} Mbit/s
+Ping: {st.results.ping} ms"
+        await event.reply(f"**Speedtest Results:**
+{msg}")
 
 # ─── Register All Commands ───────────────────────────────
 
@@ -353,17 +270,18 @@ for client in clients:
     client.add_event_handler(alive_handler, events.NewMessage(pattern=fr"{hl}alive", incoming=True))
     client.add_event_handler(set_alive_handler, events.NewMessage(pattern=fr"{hl}setalive", incoming=True))
     client.add_event_handler(reboot_handler, events.NewMessage(pattern=fr"{hl}reboot", incoming=True))
-    client.add_event_handler(sudo_handler, events.NewMessage(pattern=fr"{hl}sudo(?:\s+(.+))?", incoming=True))
-    client.add_event_handler(unsudo_handler, events.NewMessage(pattern=fr"{hl}unsudo(?:\s+(.+))?", incoming=True))
+    client.add_event_handler(sudo_handler, events.NewMessage(pattern=fr"{hl}sudo(?:s+(.+))?", incoming=True))
+    client.add_event_handler(unsudo_handler, events.NewMessage(pattern=fr"{hl}unsudo(?:s+(.+))?", incoming=True))
     client.add_event_handler(sudolist_handler, events.NewMessage(pattern=fr"{hl}sudolist", incoming=True))
-    client.add_event_handler(group_handler, events.NewMessage(pattern=fr"{hl}(promote|fullpromote|demote|ban|unban|kick|mute|unmute)", incoming=True))
-    client.add_event_handler(lock_unlock_handler, events.NewMessage(pattern=fr"{hl}(lock|unlock) (\w+)", incoming=True))
     client.add_event_handler(logs_handler, events.NewMessage(pattern=fr"{hl}logs", incoming=True))
-    client.add_event_handler(set_text_handler, events.NewMessage(pattern=fr"{hl}(setwelcome|setleave|setrules)(.+)?", incoming=True))
-    client.add_event_handler(rules_handler, events.NewMessage(pattern=fr"{hl}rules", incoming=True))
-    client.add_event_handler(welcome_leave_handler, ChatAction())
+    client.add_event_handler(set_text_handler, events.NewMessage(pattern=fr"{hl}(setwelcome|setleave)(.+)?", incoming=True))
     client.add_event_handler(echo_handler, events.NewMessage(pattern=fr"{hl}echo", incoming=True))
     client.add_event_handler(rmecho_handler, events.NewMessage(pattern=fr"{hl}rmecho", incoming=True))
     client.add_event_handler(userinfo_handler, events.NewMessage(pattern=fr"{hl}userinfo(.+)?", incoming=True))
     client.add_event_handler(shutdown_handler, events.NewMessage(pattern=fr"{hl}shutdown", incoming=True))
     client.add_event_handler(start_handler, events.NewMessage(pattern=fr"{hl}start", incoming=True))
+    client.add_event_handler(update_handler, events.NewMessage(pattern=fr"{hl}update", incoming=True))
+    client.add_event_handler(stopall_handler, events.NewMessage(pattern=fr"{hl}stopall", incoming=True))
+    client.add_event_handler(shell_handler, events.NewMessage(pattern=r"/sh (.+)", incoming=True))
+    client.add_event_handler(speedtest_handler, events.NewMessage(pattern=r"/speedtest", incoming=True))
+      
